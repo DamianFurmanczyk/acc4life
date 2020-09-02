@@ -1,0 +1,24 @@
+.order-verification {
+    @include container;
+    text-align: center;
+
+    h2 {
+        font-size: 2.2rem;
+        margin-bottom: 2.5rem;
+    }
+
+    b {
+        font-weight: bolder;
+    }
+
+    p {
+        line-height: 1.8;
+        font-size: 1.1rem;
+        margin-bottom: 1.4rem;
+    }
+
+    &_codes-list {
+        line-height: 1.5;
+        margin-top: 1.5rem;
+    }
+}

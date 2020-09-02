@@ -1,0 +1,131 @@
+<div class="popup-overlay"></div>
+<app-loader-spinner *ngIf="showLoader" [fixedLoader]="showLoader"></app-loader-spinner>
+
+<app-notification-popup *ngIf="showPopup" [content]="this.contentForNotif"
+  (toggleNotificationDisplay)="onToggleNotifDisplay()">
+</app-notification-popup>
+
+<div #popup class="checkout-dialog">
+  <p class="checkout-dialog_top-text">Check out
+    <img (click)="hideFormAndToggleDisplayAfter()" src="assets/img/icons/times-solid.svg" class="icon icon--close" alt="close">
+  </p>
+
+  <ul class="checkout-dialog_products-list">
+
+    <li>
+      <div class="checkout-dialog_products-list_li-top">
+        <div>
+          <img src="assets/img/3d.svg" alt="box">
+          <b>{{selRegion.name}} {{selAccount.name | uppercase}} </b>
+        </div>
+
+        <div class="account_quantity-times">
+          <button [ngClass]="[selAccount.orderQty == 1 ? 'deactivated' : '']"
+            (click)='onChangeOrderQuantity(-1, -1)'>-</button>
+          {{selAccount.orderQty}}
+          <button [ngClass]="[selAccount.count == selAccount.orderQty ? 'deactivated' : '']"
+            (click)='onChangeOrderQuantity(1, -1)'>+</button>
+        </div>
+      </div>
+
+      <small>Buy 2 or more to save 10%</small>
+    </li>
+
+  </ul>
+
+  <div class="checkout-dialog_hr"></div>
+
+  <div class="checkout-dialog_order-summary">
+
+    <div class="total-text">Total <b>{{price | toFixed}}{{currency.name}}</b></div>
+
+    <div class="checkout-dialog_order-summary-bottom">
+
+      1 product
+
+      <button *ngIf="!showDiscountText" [ngClass]="['couponButton', showCouponInputFlag ? 'active' : '']" (click)="toggleCouponInputDisplay()">
+        {{showCouponInputFlag ? 'Cancel' : 'Add coupon'}}
+      </button>
+      <span *ngIf="showDiscountText" class="discount-text">-{{discount}}%</span>
+    </div>
+
+    <div [ngClass]="[showCouponInputFlag && !showDiscountText ? 'active' : '']" class="checkout_code-field">
+      <form [formGroup]='couponForm'>
+        <input type="text" placeholder="Your coupon" formControlName="coupon">
+        <small (click)="attemptToActivateCoupon()" [ngClass]='{"active": discount > 0}'>Activate</small>
+      </form>
+    </div>
+
+  </div>
+
+  <div class="checkout-dialog_hr"></div>
+
+  <div class="checkout-dialog_dynamic-section">
+
+    <ng-container *ngIf="dynamicSectionActiveView == 'info'">
+      <aside>
+        <img src="assets/img/3d.svg" alt="box">
+        <p>Account details will be shown instantly after payment</p>
+      </aside>
+
+      <aside>
+        <img src="assets/img/lock.svg" alt="lock">
+        <p>Secure, SSL encrypted payment process. pod klodka</p>
+      </aside>
+    </ng-container>
+
+    <ng-container *ngIf="dynamicSectionActiveView == 'bitcoin'">
+
+      <form class="email-form" [formGroup]="emailForm">
+
+        <div>
+          <span class="fa fa-times" (click)="dynamicSectionActiveView = 'info'"></span>
+          <p>Please enter your email to proceed</p>
+        </div>
+
+        <div>
+          <input [ngClass]="{'valid':  emailForm.valid, 'invalid':  emailForm.invalid && emailForm.touched}"
+            formControlName="email" type="text">
+          <br>
+
+          <small [ngClass]="{'active':  emailForm.valid}"> next
+            <span class="fa fa-chevron-right"></span>
+          </small>
+        </div>
+
+      </form>
+
+    </ng-container>
+
+  </div>
+
+  <div class="checkout-dialog_hr"></div>
+
+  <div class="checkout-dialog_payment-methods">
+
+    <div class="payment-tile payment-tile--top" (click)="initiateStripePayment()">
+      <img src="assets/img/mastercard-2.svg" alt="paymentOption">
+      <img src="assets/img/maestro.svg" alt="paymentOption">
+      <img src="assets/img/americanExpress.svg" alt="paymentOption">
+      <img src="assets/img/visa.svg" alt="paymentOption">
+    </div>
+
+    <div class="payment-tiles-wrapper">
+
+      <div class="payment-tile payment-tile--single-payment">
+        <img src="assets/img/bankTransferTransp.svg" alt="paymentOption">
+      </div>
+
+      <div class="payment-tile payment-tile--single-payment">
+        <img src="assets/img/bitcoinTransp.svg" (click)="dynamicSectionActiveView = 'bitcoin'" alt="paymentOption">
+      </div>
+
+      <div class="payment-tile payment-tile--paypal">
+        <img src="assets/img/paypal2.svg" (click)="onInitiatePaypalPayment()" alt="paymentOption">
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

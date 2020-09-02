@@ -1,0 +1,6 @@
+<div *ngIf="showOverlay" class="popup-overlay popup-overlay--notif"></div>
+
+<div class="notification-popup" #popup>
+    <img src="assets/img/icons/times-solid.svg" (click)="onToggleNotificationDisplay()" class="icon icon--close" alt="close">
+    <p [innerHTML]="content"></p>
+</div>

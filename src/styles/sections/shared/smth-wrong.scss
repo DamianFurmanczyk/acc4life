@@ -1,0 +1,39 @@
+.no-data-retrieved {
+    background: #E0E0E0;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    z-index: 1000;
+
+    article {
+        max-width: 900px;
+        width: 80%;
+        text-align: center;
+        color: #616161;
+        margin: 0 auto;
+        text-shadow: 0 10px 42px transparentize($color: #fff, $amount: .4);
+    }
+
+    img {
+        width: 90px;
+        margin-bottom: 1.9rem;
+        filter: invert(51%) sepia(0%) saturate(2205%) hue-rotate(316deg) brightness(89%) contrast(100%);
+    }
+
+    h2 {
+        font-size: 2.8rem;
+        margin-bottom: 2.6rem;
+        letter-spacing: .7px;
+    }
+
+    p {
+        font-size: 1.6rem;
+        letter-spacing: .3px;
+        line-height: 1.5;
+    }
+}

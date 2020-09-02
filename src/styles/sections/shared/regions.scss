@@ -1,0 +1,129 @@
+.regions {
+    margin: 5% 3rem;
+
+    &_loader-wrapper {
+        min-height: 190px;
+        align-content: center;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 3rem 0 3.5rem 0;
+    }
+
+    &_selected-region-heading {
+        font-size: 2rem;
+        margin: 2.5rem 0 3.5rem 0;
+        text-align: center;
+        text-shadow: 0 6px 8px transparentize($blue, .5);
+    }
+}
+
+.regions-wrapper {
+    max-width: 80%;
+    display: flex;
+    justify-content: center;
+    margin-top: 3%;
+    margin: 3% auto 0 auto;
+}
+
+.region {
+    cursor: pointer;
+    filter: brightness(0%);
+    transition: .15s ease-in-out;
+    opacity: .8;
+    min-width: 100px;
+    padding: 17px 25px;
+    border-radius: 1rem;
+    margin: 40px 0 40px 1.3rem ;
+    background: transparentize($color: #fff, $amount: .98);
+
+    &.active {
+        filter: brightness(100%);
+        background: transparentize($color: #fff, $amount: .9855);
+        opacity: 1;
+        box-shadow: 0 0 0 1pt $blue, 0 0 2rem -.5rem transparentize($blue, .4);
+    }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &:first-of-type {
+        margin-left: 1rem;
+    }
+    &:last-of-type {
+        position: relative;
+        &::after {
+            position: relative;
+            left: 100%;
+            content: '';
+            padding: .5rem;
+        }
+        .region_caption {
+            transform: translateY(7px);
+        }
+    }
+
+    .region_caption {
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: .6rem;
+    }
+}
+
+@media (max-width: $xm) {
+    .regions-wrapper {
+        max-width: 97%;
+        justify-content: unset;
+    }
+
+    .region:first-of-type {
+        margin-left: 1rem;
+    }
+}
+
+@media (max-width: 1719px) {
+    .regions-wrapper {
+        max-width: 97%;
+    }
+
+    .region {
+        padding: 9px;
+        border-radius: 4px;
+
+        margin: 1.4rem .5rem;
+
+        img {
+            height: 82px;
+        }
+    }
+
+    .region:first-of-type {
+        margin-left: .9rem;
+    }
+}
+@media (max-width: 1865px) and (min-width: 1720px)  {
+    .regions-wrapper {
+        max-width: 97%;
+    }
+
+    .region {
+        padding: 22px 16px;
+        border-radius: 8px;
+
+        margin: 1.4rem .7rem;
+
+        img {
+            height: 85px;
+        }
+    }
+
+    .region:first-of-type {
+        margin-left: .9rem;
+    }
+}

@@ -1,0 +1,83 @@
+@import '../../_colors';
+@import '../../mixins/blocks';
+@import '../../mixins/elements';
+
+.add-credits {
+  background: $lightGray;
+  padding: 3% 0;
+}
+
+.credits-wrapper {
+  @include container;
+  display: flex;
+  justify-content: space-between;
+}
+
+.credit {
+  padding: 1.4rem;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  background: #fff;
+  border-radius: .9rem;
+
+  >div {
+    text-align: center;
+  }
+
+  small {
+    display: inline-block;
+    text-align: center;
+  }
+}
+
+.credit_cost {
+  small {
+    font-size: .8rem;
+    text-transform: uppercase;
+    margin-bottom: .6rem;
+    display: inline-block;
+  }
+
+  margin: .8rem 0 1.3rem 0;
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+
+.credit_quantity {
+  small {
+    color: $gray;
+    font-size: .8rem;
+    margin-bottom: 1.1rem;
+  }
+}
+
+.credit_quantity-times {
+  @include qtity_btns;
+}
+
+.credit_actions {
+  margin-top: 1.1rem;
+  button {
+    font-size: .7rem;
+    letter-spacing: -1px;
+    font-weight: bolder;
+    text-transform: uppercase;
+    width: 6rem;
+    padding: .8rem .5rem;
+    border-radius: 1.8rem;
+    &:first-of-type{
+      margin-right: .3rem;
+      background: $blue;
+      transition: .4s;
+      color: white;
+      &:hover {
+        box-shadow: $blue 0 1px 30px -9px;
+      }
+    }
+    &:last-of-type{
+      background: $lightGray;
+    }
+  }
+}

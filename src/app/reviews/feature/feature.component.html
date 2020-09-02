@@ -1,0 +1,13 @@
+<app-reviews-list 
+    (toggleAddReviewForm)='onToggleAddReviewForm()' 
+    [reviewsList]='reviews$ | async'
+    [reviewsLoading]='facade.reviewsLoading$ | async'
+    [reviewsLoadingErr]='facade.reviewsLoadingErr$ | async'
+    >
+</app-reviews-list>
+
+<app-add-review-form 
+    *ngIf="showAddReviewFormFlag" 
+    (toggleAddReviewForm)='onToggleAddReviewForm()'>
+    (addReview)='onAddReview($event)'
+</app-add-review-form>

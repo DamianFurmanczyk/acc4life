@@ -1,0 +1,19 @@
+<app-account-purchase-stripe 
+(changeSelectedAccount)="onChangeSelectedAccount($event)"
+(checkoutToggle)="onToggleCheckoutFlag()"  
+[currency]='currency$ | async' 
+[accountsLoading]='facade.accountsLoading$ | async'
+[accountsLoadingErr]='facade.accountsLoadingErr$ | async'
+(changeOrderQuantity)="onChangeOrderQuantity($event)"
+[accounts]='accountsExtended$ | async'></app-account-purchase-stripe>
+
+<app-checkout-dialog 
+[coupons]='coupons$ | async'
+[country]='country$ | async'
+[selectedAccount]='selectedAccount'
+[regions]='regions$ | async'
+(changeOrderQuantity)="onChangeOrderQuantity($event)"
+[selRegion]='selRegion$ | async' 
+*ngIf="showCheckoutFlag"
+[currency]='currency$ | async' 
+(checkoutToggle)='onToggleCheckoutFlag()'></app-checkout-dialog>

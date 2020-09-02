@@ -1,0 +1,30 @@
+    <section class="regions">
+      <h2>Choose your region</h2>
+
+      <div *ngIf="(facade.loadingRegions$ | async) && !(facade.loadingRegionsErr$ | async)" class="regions_loader-wrapper">
+        <app-loader-spinner></app-loader-spinner>
+      </div>
+
+      <perfect-scrollbar>
+        <div class="regions-wrapper">
+
+          <ng-container *ngIf="facade.loadingRegionsErr$ | async; else elseTemplate">
+            <p class="noInfo">
+              Couldn't retrieve regions data from server.
+            </p>
+          </ng-container>
+          
+          <ng-template #elseTemplate>
+            <figure *ngFor="let region of regions" (click)="selectRegion(region)" [ngClass]="['region', selectedRegionSet.name == region.name ? ' active' : '']">
+                <div class="region_caption">{{region.name}}</div>
+                <div class="region_img-wrapper">
+                    <img [src]="'assets/img/' + region.name + '.png'" alt="region_img">
+                </div>
+            </figure>
+          </ng-template>
+
+      </div>
+    </perfect-scrollbar>
+
+    <h2 *ngIf="regions" class="regions_selected-region-heading">{{selectedRegionSet.name}}</h2>
+  </section>

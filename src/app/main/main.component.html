@@ -1,0 +1,16 @@
+<app-nav 
+    [activeClass]='homepageUrl'
+    [scrollActiveNavNoMatterWhat]='scrollActiveNavNoMatterWhat'
+    [activeClassScroll]='scrollStyles'
+    (currencyChange)='onCurrencyChange($event)' 
+    [currencySetHandler]="currency$ | async"
+    [currencyLoadingErr]="facade.currencyLoadingErr$ | async"
+    [currencyLoading]="facade.currencyLoading$ | async">
+</app-nav>
+<router-outlet></router-outlet>
+<app-payment-method-stripe></app-payment-method-stripe>
+<app-cookie-consent-bar
+    *ngIf="showCookiesBar"
+    (dismissCookiesBarAndSetCookie)="setCookiesConsentCookie()">
+</app-cookie-consent-bar>
+<app-footer></app-footer>

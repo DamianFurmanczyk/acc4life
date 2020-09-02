@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('assets/fonts/Poppins-Regular.ttf') format('truetype');
+    font-display: fallback;
+}
+
+@mixin main-font {
+    font-family: 'Poppins';
+    font-display: fallback;
+}
+
+@mixin heroNavLiSizedText {
+    font-size: 1.3rem;
+}
+
+.alert-text {
+    color: #FF3333;
+}

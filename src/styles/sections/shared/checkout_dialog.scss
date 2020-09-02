@@ -1,0 +1,296 @@
+.checkout-dialog {
+  transform: translate(-50%, -200%);
+  transition: .4s;
+  position: fixed;
+  z-index: 100;
+  left: 50%;
+  top: 50%;
+
+  &.active {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+
+  display: table;
+  margin: 0 auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+
+  &_stripe {
+    width: 100%;
+    padding: 8% 5%;
+
+    button {
+      padding: 5px 10px;
+      float: right;
+      margin-top: .7rem;
+    }
+  }
+}
+
+.discount-text {
+  color: $blue;
+}
+
+.checkout-dialog_products-list_li-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.checkout-dialog_products-list {
+  margin-bottom: 3rem;
+  margin-top: 1.5rem;
+
+  .account_quantity-times {
+    float: right;
+    margin: -.5rem 0 0 0;
+  }
+
+  img {
+    height: 1.7rem;
+    margin-right: .6rem;
+  }
+
+  small {
+    float: right;
+    font-size: .8rem;
+    margin-top: .8rem;
+  }
+}
+
+.checkout-dialog_top-text {
+  font-size: 1.1rem;
+  font-weight: bold;
+
+  span {
+    cursor: pointer;
+    float: right;
+  }
+}
+
+.checkout-dialog_hr {
+  background: $lightGray;
+  height: 2px;
+  margin: 1.6rem auto;
+}
+
+.checkout-dialog_order-summary {
+
+  .total-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+
+    b {
+      font-size: 1.4rem;
+      float: right;
+    }
+  }
+
+}
+
+.checkout-dialog_order-summary-bottom {
+  display: flex;
+  justify-content: space-between;
+  font-size: .8rem;
+  margin-top: 1rem;
+  width: 100%;
+  color: $gray2;
+
+  button {
+    background: transparent;
+    color: $blue;
+    margin-right: -.3rem;
+  }
+}
+
+.checkout-dialog_dynamic-section {
+  height: 120px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+
+  .email-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    
+    p {
+      color: $blackish;
+      font-size: .9rem;
+      margin-bottom: 1.2rem;
+      margin-top: 1.5rem;
+    }
+
+    input {
+      padding: 9px 12px;
+      border: 1px solid $blackish;
+      border-radius: 4px;
+
+      &.valid {
+        border-color: $blue;
+      }
+
+      &.invalid {
+        border-color: #C54C5D;
+      }
+    }
+
+    small {
+      font-size: .8rem;
+      color: $gray;
+      float: right;
+      display: block;
+      margin-top: 1rem;
+      &.active {
+        cursor: pointer;
+        color: $blue;
+      }
+    }
+  }
+
+  img {
+    height: 50px;
+    margin-bottom: .6rem;
+  }
+
+  aside {
+    width: 190px;
+    line-height: 1.6;
+    font-size: .8rem;
+    text-align: center;
+
+    &:first-of-type {
+      margin-right: 1.5rem;
+    }
+  }
+}
+
+.couponButton.active {
+  color: $gray;
+}
+
+.checkout_code-field {
+  position: relative;
+  max-height: 0;
+  transition: .4s;
+  overflow: hidden;
+  opacity: .7;
+
+  &.active {
+    max-height: 64px;
+    opacity: 1;
+
+    small {
+      opacity: .8;
+      top: 55%;
+    }
+  }
+
+  input {
+    padding: .9rem;
+    background: $lightGray;
+    color: $gray;
+    font-size: .85rem;
+    margin-top: 1.4rem;
+    box-sizing: border-box;
+    border-width: 0;
+    width: 100%;
+    border-radius: .4rem;
+  }
+
+  small {
+    &.active {
+      opacity: 1;
+      color: $blue;
+    }
+    cursor: pointer;
+    color: $gray;
+    font-size: .9rem;
+    position: absolute;
+    top: 110%;
+    right: .9rem;
+    opacity: 0;
+    transition: .4s;
+  }
+}
+
+.payment-tile {
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: space-between;
+  padding: .7rem;
+  margin-right: 1rem;
+  border: 1px solid $lightGray4;
+  border-radius: .4rem;
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  img {
+    cursor: pointer;
+    height: 32px;
+    filter: grayscale(0%);
+  }
+
+  &--single-payment {
+    justify-content: center;
+    display: none;
+  }
+
+  &--paypal {
+    width: calc(100% - 40px);
+    justify-content: center;
+  }
+
+  &--top {
+    margin-bottom: 1rem;
+    margin-right: 0;
+  }
+
+}
+
+.payment-tiles-wrapper {
+  display: flex;
+}
+
+@media (max-width: 530px) {
+  .checkout-dialog {
+    width: calc(100% - 90px);
+    min-width: 315px;
+
+    &_payment-methods {
+      .payment-tile {
+
+        &--single-payment:nth-of-type(2) {
+          margin-right: 0;
+        }
+
+        &s-wrapper {
+          flex-wrap: wrap;
+        }
+
+        &--top {
+          justify-content: space-around;
+
+          img:nth-of-type(1), img:nth-of-type(2) {
+            display: none !important;
+          }
+        }
+
+        &--paypal {
+          margin-top: 20px;
+          width: calc(100% - 40px);
+          justify-content: center;
+        }
+      }
+    }
+
+    aside {
+      width: 45%;
+    }
+  }
+}

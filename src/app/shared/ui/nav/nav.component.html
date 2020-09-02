@@ -1,0 +1,41 @@
+<nav  [ngClass]="{'active':activeClassSet, 'scrollActive': activeClassScrollSet && !activeClassSet || scrollActiveNavAnyways && activeClassScrollSet}" class="hero_nav nav">
+  <figure routerLink="/" (click)="scrollTopOnNavigateAndDismiss()" class="nav_li nav_li--icon">
+      <img src="assets/img/logo.webp" alt="icon" />
+  </figure>
+  <ul #navUl id="nav_ul" class="nav_ul">
+      <div class="nav_ul-left-side-wrapper">
+          <li routerLink="/accounts" routerLinkActive="active" (click)="scrollTopOnNavigateAndDismiss()" class="nav_li">Accounts</li>
+          <li routerLink="/reviews" routerLinkActive="active" (click)="scrollTopOnNavigateAndDismiss()" class="nav_li">Reviews</li>
+          <li class="nav_li nav_li--dropdown" [class]="'nav_li nav_li--dropdown ' + (dropOpen[0] ? 'active' : '')"
+          (click)='toggleDrop(0)'>
+            More 
+            <img src="assets/img/icons/chevron-down-solid.svg" class="icon icon--dropdown" alt="expand">
+            <ul>
+              <li routerLink="/tos" (click)="scrollTopOnNavigateAndDismiss()">TOS</li>
+              <li routerLink="/tos" (click)="scrollToPrivacyPolicyOnNavigateAndDismiss()">Privacy policy</li>
+              <li routerLink="/" (click)="scrollTopOnNavigateAndDismiss()">Homepage</li>
+          </ul>
+          </li>
+      </div>
+
+      <li [class]="'nav_li nav_li--dropdown nav_li--currency ' + (dropOpen[1] ? 'active' : '')"  (click)='toggleDrop(1)'>
+
+        <ng-container *ngIf="activeCurrency">{{activeCurrency}}</ng-container>
+        <ng-container *ngIf="currencyLoading"> <app-loader-dots [altStyles]="true"></app-loader-dots> </ng-container>
+        <ng-container *ngIf="currencyLoadingErr"> <p class="alert-text">Error</p> </ng-container>
+
+        <img src="assets/img/icons/chevron-down-solid.svg" class="icon icon--dropdown" alt="expand">
+        <ul>
+            <li 
+            (click)='onCurrencyChange(curr)' 
+            *ngFor="let curr of currencyOptionsToDisplay">
+              <b>{{currencySymbolMap[curr] || curr | slice: 0 :2}}</b> <span>{{curr}}</span>
+            </li>
+        </ul>
+      </li>
+  </ul>
+  
+  <span #hamburger class="hamburger" href="#">
+    <div class="hamburger__inner"></div>
+  </span>  
+</nav>

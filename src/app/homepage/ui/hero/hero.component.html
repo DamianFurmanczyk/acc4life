@@ -1,0 +1,18 @@
+<header class="hero">
+  <article class="hero_article">
+      <h1>All you need for <br> League of legends</h1>
+      <p>Feel free to check out our accounts.</p>
+      <button (click)='navigateAndScrollToAccounts()' type="button">See offer <span class="fa fa-long-arrow-right"></span>
+        <img src="assets/img/icons/long-arrow-alt-right-solid.svg" alt="" class="icon icon--arrow-right">
+      </button>
+  </article>
+
+  <div class="hero_reviews">
+      <div (click)="navigateAndScrollToReviews()">
+        <span [innerHTML]="stars"></span>
+        <ng-container *ngIf="reviewsNum"><span class="reviews_count">{{reviewsNum}} reviews</span></ng-container>
+        <ng-container *ngIf="reviewsAvgRatingLoading"> <app-loader-dots></app-loader-dots> </ng-container>
+        <ng-container *ngIf="reviewsAvgRatingLoadingErr"> <p class="alert-text" style="display: inline-block; text-indent: .7rem; text-shadow: 0 1px 2px #111;">Error loading reviews count</p> </ng-container>
+      </div>
+  </div>
+</header>

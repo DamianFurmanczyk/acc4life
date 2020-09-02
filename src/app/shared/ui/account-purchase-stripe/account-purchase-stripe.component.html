@@ -1,0 +1,61 @@
+<app-smth-went-wrong *ngIf="accountsLoadingErr"></app-smth-went-wrong>
+
+<section class="account-options">
+  <div *ngIf="accountsLoading" class="account-options_loader-wrapper">
+    <app-loader-spinner></app-loader-spinner>
+  </div>
+
+  <div *ngIf="accountsLoadingErr" class="account-options_loader-wrapper--err-alt">
+    <p class="noInfo">
+      Couldn't retrieve accounts data from server.
+    </p>
+  </div>
+
+  <ng-container *ngIf="!accountsLoading && !accountsLoadingErr">
+  
+    <perfect-scrollbar>
+      <div ss-container class="account-options-wrapper">
+
+        <div 
+        *ngFor="let acc of accounts; let i = index" 
+        class="account" 
+        [ngClass]="{outOfStock: acc.count == 0,  'account--bestseller': i == 1}"
+        >
+          <img [src]="'assets/img/' + acc.name + '.svg'" alt="blue_shards">
+
+          <div class="account_cost">
+            <small>{{acc.name | uppercase}}</small> <br>
+            <small>30 lvl instant delivery</small> <br>
+            {{(acc.priceAfterConversion ? acc.priceAfterConversion : acc.price_usd) + ' ' + (currency ? currency.name: '')}}
+          </div>
+
+          <p class="account_description">
+            {{accountToDustAmountMap[acc.name]}} blue essence <br>
+            Unranked all seasons <br>
+            Full access <br>
+            Lifetime warranty <br>
+          </p>
+
+          <div class="flex-align-bottom-wrapper">
+            <div class="account_quantity-times">
+
+              <p *ngIf="acc.count == 0;else btnsWrapper">Out of stock</p>
+
+              <ng-template #btnsWrapper>
+                <button [ngClass]="[acc.orderQty == 1 ? 'deactivated' : '']" (click)='onChangeOrderQuantity(-1, i)'>-</button>
+                  {{acc.orderQty}}
+                <button [ngClass]="[acc.count == acc.orderQty ? 'deactivated' : '']" (click)='onChangeOrderQuantity(1, i)'>+</button>
+              </ng-template>
+            </div>
+
+          <div class="account_actions">
+            <button [disabled]='acc.count == 0' (click)="onCheckoutToggle(); onChangeSelectedAccount(acc)">BUY NOW</button>
+          </div>
+          </div>
+        </div>
+
+      </div>
+    </perfect-scrollbar>
+
+    </ng-container>
+</section>
