@@ -25,7 +25,7 @@ export class FeatureComponent implements OnInit, OnDestroy {
         this.orderInfoLoading = '';
       } else {
         res = {...res, code: JSON.parse(res['code']).map(el => {
-          return {login: el.code.split(':')[0], password: el.code.split(':')[1]};
+          return el.code.replace(/[^a-zA-Z0-9]/g, " ").trim();
         })};
         this.orderInfo = res;
         this.orderInfoLoading = '';

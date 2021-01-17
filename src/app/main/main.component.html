@@ -1,9 +1,10 @@
-<app-nav 
+<app-nav
     [activeClass]='homepageUrl'
     [scrollActiveNavNoMatterWhat]='scrollActiveNavNoMatterWhat'
     [activeClassScroll]='scrollStyles'
-    (currencyChange)='onCurrencyChange($event)' 
-    [currencySetHandler]="currency$ | async"
+    (currencyChange)='onCurrencyChange($event)'
+    [activeTranslationHandler]="facade.activeTranslation$ | async"
+    [currencySetHandler]="facade.currency$ | async"
     [currencyLoadingErr]="facade.currencyLoadingErr$ | async"
     [currencyLoading]="facade.currencyLoading$ | async">
 </app-nav>
@@ -11,6 +12,7 @@
 <app-payment-method-stripe></app-payment-method-stripe>
 <app-cookie-consent-bar
     *ngIf="showCookiesBar"
+    [activeTranslationHandler]="facade.activeTranslation$ | async"
     (dismissCookiesBarAndSetCookie)="setCookiesConsentCookie()">
 </app-cookie-consent-bar>
-<app-footer></app-footer>
+<app-footer [activeTranslationHandler]="facade.activeTranslation$ | async"></app-footer>

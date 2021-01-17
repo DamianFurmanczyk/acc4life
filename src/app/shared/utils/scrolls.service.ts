@@ -23,7 +23,7 @@ export class ScrollService {
             top: elY+70,
             behavior: 'smooth',
           });
-          
+
     }
 
     scrollToTopOnNavigate() {
@@ -39,10 +39,11 @@ export class ScrollService {
 
     navigateAndScrollToElem(elSel: string, destination: string) {
         // if this dest
+        console.log('asd')
         if(this.router.url == destination) {
             return this.scrollToElem(elSel)
         }
-        
+
         this.router.navigate([destination]);
         this.pingWhenNavigated().subscribe(e => {
             this.scrollToTop();

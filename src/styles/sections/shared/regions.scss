@@ -76,7 +76,7 @@
     }
 }
 
-@media (max-width: $xm) {
+@media (max-width: 1350px) {
     .regions-wrapper {
         max-width: 97%;
         justify-content: unset;
@@ -88,9 +88,6 @@
 }
 
 @media (max-width: 1719px) {
-    .regions-wrapper {
-        max-width: 97%;
-    }
 
     .region {
         padding: 9px;
@@ -108,9 +105,6 @@
     }
 }
 @media (max-width: 1865px) and (min-width: 1720px)  {
-    .regions-wrapper {
-        max-width: 97%;
-    }
 
     .region {
         padding: 22px 16px;

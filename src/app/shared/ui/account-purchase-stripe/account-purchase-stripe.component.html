@@ -12,34 +12,34 @@
   </div>
 
   <ng-container *ngIf="!accountsLoading && !accountsLoadingErr">
-  
+
     <perfect-scrollbar>
       <div ss-container class="account-options-wrapper">
 
-        <div 
-        *ngFor="let acc of accounts; let i = index" 
-        class="account" 
+        <div
+        *ngFor="let acc of accounts; let i = index"
+        class="account"
         [ngClass]="{outOfStock: acc.count == 0,  'account--bestseller': i == 1}"
         >
           <img [src]="'assets/img/' + acc.name + '.svg'" alt="blue_shards">
 
           <div class="account_cost">
-            <small>{{acc.name | uppercase}}</small> <br>
-            <small>30 lvl instant delivery</small> <br>
+            <small>{{activeTranslation.homepage.accounts[acc.name].h  | uppercase}}</small> <br>
+            <small>{{activeTranslation.homepage.accounts[acc.name].subh}}</small> <br>
             {{(acc.priceAfterConversion ? acc.priceAfterConversion : acc.price_usd) + ' ' + (currency ? currency.name: '')}}
           </div>
 
           <p class="account_description">
-            {{accountToDustAmountMap[acc.name]}} blue essence <br>
-            Unranked all seasons <br>
-            Full access <br>
-            Lifetime warranty <br>
+            {{activeTranslation.homepage.accounts[acc.name].desChunks[0]}} <br>
+            {{activeTranslation.homepage.accounts[acc.name].desChunks[1]}} <br>
+            {{activeTranslation.homepage.accounts[acc.name].desChunks[2]}} <br>
+            {{activeTranslation.homepage.accounts[acc.name].desChunks[3]}} <br>
           </p>
 
           <div class="flex-align-bottom-wrapper">
             <div class="account_quantity-times">
 
-              <p *ngIf="acc.count == 0;else btnsWrapper">Out of stock</p>
+              <p *ngIf="acc.count == 0;else btnsWrapper">{{activeTranslation.homepage.accounts.outOfStock}}</p>
 
               <ng-template #btnsWrapper>
                 <button [ngClass]="[acc.orderQty == 1 ? 'deactivated' : '']" (click)='onChangeOrderQuantity(-1, i)'>-</button>
@@ -49,7 +49,7 @@
             </div>
 
           <div class="account_actions">
-            <button [disabled]='acc.count == 0' (click)="onCheckoutToggle(); onChangeSelectedAccount(acc)">BUY NOW</button>
+            <button [disabled]='acc.count == 0' (click)="onCheckoutToggle(); onChangeSelectedAccount(acc)">{{activeTranslation.homepage.accounts.buyNow}}</button>
           </div>
           </div>
         </div>

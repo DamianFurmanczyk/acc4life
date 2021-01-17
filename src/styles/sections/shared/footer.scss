@@ -66,6 +66,11 @@
   li.trigger {
     height: 16px;
     transition: .4s;
+
+    &--height-l {
+      height: 16px !important;
+    }
+
     &.active {
       height: 48px;
 
@@ -121,10 +126,10 @@
   }
 
   dd {
-    line-height: 1.1;    
+    line-height: 1.1;
     margin-top: -.3rem;
     padding-right: 3rem;
-    
+
     &.active {
       pointer-events: all;
       opacity: 1;
@@ -189,7 +194,7 @@
       }
   }
 
-  .faq-column { 
+  .faq-column {
     display: none;
   }
 

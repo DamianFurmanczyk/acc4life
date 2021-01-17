@@ -1,26 +1,26 @@
 <div class="popup-overlay"></div>
 
 <form class="add-review-form" [formGroup]="reviewForm" #form (submit)="presenter.submitAddReviewForm($event)">
-    <h2> Add review
+    <h2>{{activeTranslation.reviewForm.add}}
         <img (click)="hideFormAndToggleDisplayAfter()" src="assets/img/icons/times-solid.svg" class="icon icon--close" alt="close">
     </h2>
 
     <div class="rating-display">
-        <small>Rating</small>
+        <small>{{activeTranslation.reviewForm.rate}}</small>
         <img src="assets/img/icons/star-solid.svg" alt=""  *ngFor="let item of presenter.stars; let i = index" (click)="presenter.onStarClick(i)" [ngClass]="['icon icon--star', item == 'active' ? 'active' : '']">
     </div>
 
     <div class="add-review-form_input-wrapper">
-        <label for="name">Name</label>
+        <label for="name">{{activeTranslation.reviewForm.name}}</label>
         <input type="text" id="name" formControlName="author">
     </div>
-    
+
     <div class="add-review-form_input-wrapper">
-        <label for="review">Review</label>
+        <label for="review">{{activeTranslation.reviewForm.review}}</label>
         <textarea formControlName="tekst" id="review" cols="20" rows="8" placeholder="Type your review here"></textarea>
     </div>
 
     <button [disabled]="reviewForm.invalid || !presenter.starsTouched">
-        POST REVIEW
+      {{activeTranslation.reviewForm.post}}
     </button>
 </form>

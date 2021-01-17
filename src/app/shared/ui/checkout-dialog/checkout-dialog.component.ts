@@ -1,3 +1,4 @@
+import { translations } from './../../../core/mappers/translations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Region } from './../../../models/region.interface';
 import { currencyData } from './../../../models/currencyData.interface';
@@ -40,6 +41,10 @@ export class CheckoutDialogComponent implements AfterViewInit {
     "address_state": null,
     "address_zip": null
   };
+  @Input() set activeTranslationHandler(t) {
+    if(translations[t]) this.activeTranslation = translations[t];
+  }
+  activeTranslation: typeof translations.EN = translations.EN;
 
   selAccount: AccountWithCountAndOrderQty;
   showCouponInputFlag: boolean = false;
@@ -58,14 +63,17 @@ export class CheckoutDialogComponent implements AfterViewInit {
   contentForNotif = '';
   discountCode = '';
   showDiscountText = false;
+  showErrPopup = false;
+  errPopupMsg = '';
 
   constructor(private DataAccessService: DataAccessService, private fb: FormBuilder, private redirectService: RedirectService) {
     this.emailForm = this.fb.group({
-      email: ['', [Validators.email, Validators.required]]
+      email: ['', [Validators.email, Validators.required]],
+      fullname: ['', [Validators.required]]
     });
     this.couponForm = this.fb.group({
       coupon: ['']
-    }); 
+    });
     this.emailForm.controls.email.valueChanges.subscribe((val: string) => this.email = val.trim());
     this.couponForm.controls.coupon.valueChanges.subscribe(
       (val: string) => {
@@ -74,6 +82,10 @@ export class CheckoutDialogComponent implements AfterViewInit {
         this.discountCode = val;
       }
     );
+  }
+
+  bitcoinPayment() {
+    this.emailForm.valid && alert('pay or ');
   }
 
   attemptToActivateCoupon() {
@@ -105,8 +117,7 @@ export class CheckoutDialogComponent implements AfterViewInit {
   onInitiatePaypalPayment() {
     this.showLoader = true;
     const selAcc = this.selAccount;
-    console.log(this.currency.name);
-    console.log(this.country);
+    const comp = this;
 
     let altCurrency;
     if(['BGN', 'HKR', 'RON', 'TRY'].includes(this.country)) {
@@ -114,13 +125,23 @@ export class CheckoutDialogComponent implements AfterViewInit {
     } else if(['ARS', 'ISK'].includes(this.country)) {
       altCurrency = 'USD';
     }
-    
+
     this.DataAccessService.initiatePaypalPayment(this.price, altCurrency ? altCurrency : this.currency.name, selAcc.orderQty, selAcc.name).then(res => {
-      this.showLoader = false;
+      this.showLoader = !this.showLoader;
+
+      console.log(res);
+
+      if (res.original.status == 'success'){
       window.open(
-        res,
+        res.original.message,
         '_self'
       );
+      } else {
+        window.open(
+          window.location.href,
+          '_self'
+        );
+      }
     });
   }
 

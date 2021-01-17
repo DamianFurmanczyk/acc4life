@@ -4,7 +4,7 @@ import { Review } from './../../models/reviews.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { forkJoin } from 'rxjs';
+import { forkJoin, BehaviorSubject } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { CookiesAppService } from './cookies.service';
 
@@ -21,7 +21,6 @@ export class DataAccessService {
       tap(res => this.selectedRegion = res)
     ).subscribe();
   }
-
   selectedRegion: any = {};
   apiUrl = 'https://api.abcleague.webup-dev.pl/';
 
@@ -43,11 +42,11 @@ export class DataAccessService {
   }
 
   getCoupons() {
-    return this.http.get(this.apiUrl + 'coupon')
+    return this.http.get(this.apiUrl + 'coupon');
   }
 
   getAvgReviewRating() {
-    return forkJoin(this.http.get(this.apiUrl + 'reviews/sum'), 
+    return forkJoin(this.http.get(this.apiUrl + 'reviews/sum'),
       this.http.get(this.apiUrl + 'reviewssum/' + this.cookiesAppService.randCookie)).pipe(map(res => {
         let newResp = [];
         // res[x][0] - avg rating, res[x][1] - rating count
@@ -72,7 +71,7 @@ export class DataAccessService {
 
   initiatePaypalPayment(price: number | string, currency: string, quantity: number, description: string,) {
     return fetch(
-      `https://api.abcleague.webup-dev.pl/pay_paypal?region=${this.selectedRegion.name}&description=${description}&price=${price}&currency=${currency}&quantity=${quantity}`,
+      `${this.apiUrl}pay_paypal?region=${this.selectedRegion.name}&description=${description}&price=${price}&currency=${currency}&quantity=${quantity}`,
       { method: "post" })
       .then(res => res.json());
   }

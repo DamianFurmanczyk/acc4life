@@ -8,6 +8,7 @@
         No order information found.
     </ng-container>
     
+    
     <ng-container *ngIf="!orderInfoLoading && orderInfo">
     <h2>Order information:</h2>
 
@@ -27,7 +28,7 @@
     {{orderInfo['code'].length > 1 ? 'Here are your accounts passes:' : 'Here is your accounts passes:'}}
     
         <ul class="order-verification_codes-list">
-            <li *ngFor="let code of orderInfo['code']">Login:  {{code.login}}, password:  {{code.password}}<li>
+            <li *ngFor="let code of orderInfo['code']">{{code}}<li>
         </ul>
     </ng-container>
 </section>

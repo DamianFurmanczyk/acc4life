@@ -1,12 +1,12 @@
 <div class="popup-overlay"></div>
-<app-loader-spinner *ngIf="showLoader" [fixedLoader]="showLoader"></app-loader-spinner>
+<app-loader-spinner *ngIf="showLoader && !showPopup" [fixedLoader]="true"></app-loader-spinner>
 
-<app-notification-popup *ngIf="showPopup" [content]="this.contentForNotif"
-  (toggleNotificationDisplay)="onToggleNotifDisplay()">
+<app-notification-popup [content]="errPopupMsg" *ngIf="showErrPopup" (toggleNotificationDisplay)="showErrPopup = false; errPopupMsg = '';">
+
 </app-notification-popup>
 
 <div #popup class="checkout-dialog">
-  <p class="checkout-dialog_top-text">Check out
+  <p class="checkout-dialog_top-text">{{activeTranslation.checkout.checkOut}}
     <img (click)="hideFormAndToggleDisplayAfter()" src="assets/img/icons/times-solid.svg" class="icon icon--close" alt="close">
   </p>
 
@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <small>Buy 2 or more to save 10%</small>
+      <small>{{activeTranslation.checkout.promoText}}</small>
     </li>
 
   </ul>
@@ -37,11 +37,11 @@
 
   <div class="checkout-dialog_order-summary">
 
-    <div class="total-text">Total <b>{{price | toFixed}}{{currency.name}}</b></div>
+    <div class="total-text">{{activeTranslation.checkout.total}} <b>{{price | toFixed}}{{currency.name}}</b></div>
 
     <div class="checkout-dialog_order-summary-bottom">
 
-      1 product
+      {{selAccount.orderQty}} {{activeTranslation.checkout.product + (selAccount.orderQty > 1 ? 's': '')}}
 
       <button *ngIf="!showDiscountText" [ngClass]="['couponButton', showCouponInputFlag ? 'active' : '']" (click)="toggleCouponInputDisplay()">
         {{showCouponInputFlag ? 'Cancel' : 'Add coupon'}}
@@ -52,7 +52,7 @@
     <div [ngClass]="[showCouponInputFlag && !showDiscountText ? 'active' : '']" class="checkout_code-field">
       <form [formGroup]='couponForm'>
         <input type="text" placeholder="Your coupon" formControlName="coupon">
-        <small (click)="attemptToActivateCoupon()" [ngClass]='{"active": discount > 0}'>Activate</small>
+        <small (click)="attemptToActivateCoupon()" [ngClass]='{"active": discount > 0}'>{{activeTranslation.checkout.activate}}</small>
       </form>
     </div>
 
@@ -65,12 +65,12 @@
     <ng-container *ngIf="dynamicSectionActiveView == 'info'">
       <aside>
         <img src="assets/img/3d.svg" alt="box">
-        <p>Account details will be shown instantly after payment</p>
+        <p>{{activeTranslation.checkout.boxText}}</p>
       </aside>
 
       <aside>
         <img src="assets/img/lock.svg" alt="lock">
-        <p>Secure, SSL encrypted payment process. pod klodka</p>
+        <p>{{activeTranslation.checkout.sslText}}</p>
       </aside>
     </ng-container>
 
@@ -79,16 +79,20 @@
       <form class="email-form" [formGroup]="emailForm">
 
         <div>
-          <span class="fa fa-times" (click)="dynamicSectionActiveView = 'info'"></span>
-          <p>Please enter your email to proceed</p>
+          <span class="fa fa-times" (click)="dynamicSectionActiveView = 'info'">
+            <img src="assets/img/icons/times-solid.svg" alt="close" class="icon icon--close" style="height: 13px;">
+          </span>
+          <p style="text-align: left;">{{activeTranslation.checkout.fillFormPrompt}}</p>
         </div>
 
         <div>
-          <input [ngClass]="{'valid':  emailForm.valid, 'invalid':  emailForm.invalid && emailForm.touched}"
+          <input placeholder="email" style="margin-right: 5px;" [ngClass]="{'valid':  emailForm.controls.email.valid, 'invalid':  emailForm.controls.email.invalid && emailForm.controls.email.touched}"
             formControlName="email" type="text">
+          <input placeholder="full name" [ngClass]="{'valid':  emailForm.controls.fullname.valid, 'invalid':  emailForm.controls.fullname.invalid && emailForm.controls.fullname.touched}"
+            formControlName="fullname" type="text">
           <br>
 
-          <small [ngClass]="{'active':  emailForm.valid}"> next
+          <small (click)="bitcoinPayment()" [ngClass]="{'active':  emailForm.valid}"> {{activeTranslation.checkout.next}}
             <span class="fa fa-chevron-right"></span>
           </small>
         </div>
@@ -112,12 +116,12 @@
 
     <div class="payment-tiles-wrapper">
 
-      <div class="payment-tile payment-tile--single-payment">
-        <img src="assets/img/bankTransferTransp.svg" alt="paymentOption">
+      <div class="payment-tile payment-tile--single-payment" style="cursor: not-allowed;">
+        <img src="assets/img/bankTransferTransp.svg" alt="paymentOption"  style="cursor: not-allowed;">
       </div>
 
       <div class="payment-tile payment-tile--single-payment">
-        <img src="assets/img/bitcoinTransp.svg" (click)="dynamicSectionActiveView = 'bitcoin'" alt="paymentOption">
+        <img src="assets/img/bitcoinTransp.svg" (click)="dynamicSectionActiveView == 'bitcoin' ? bitcoinPayment() : dynamicSectionActiveView = 'bitcoin'" alt="paymentOption">
       </div>
 
       <div class="payment-tile payment-tile--paypal">

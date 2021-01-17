@@ -1,3 +1,6 @@
+import { translations } from './../../../core/mappers/translations';
+import { AppFacade } from './../../../core/state/facades/app.facade';
+import { DataAccessService } from './../../../core/services/app.service';
 import { ScrollService } from './../../utils/scrolls.service';
 import { Component, Input, Output, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { EventEmitter } from '@angular/core';
@@ -22,10 +25,15 @@ export class NavComponent  {
   @Input() set activeClassScroll(flag:  boolean) {
     this.activeClassScrollSet = flag;
   }
+  @Input() set activeTranslationHandler(t) {
+    console.log(translations[t])
+    if(translations[t]) this.activeTranslation = translations[t];
+  }
   @Input() currencyLoadingErr;
   @Input() currencyLoading;
-  @Input() set currencySetHandler(excludeCurr: { name: string, exchangeRateToDollar: number }) {
+  @Input() set currencySetHandler(excludeCurr: { name: string, exchangeRateToDollar: number, country: string }) {
     if(!excludeCurr) return;
+    if(['PL', 'ES', 'DE', 'EN'].includes(excludeCurr.country)) this.setActiveFlagOption(excludeCurr.country);
     if(!this.hasCurrencyBeenSetBasedOnIpFlag) {
       this.currencyOptions = [...this.currencyOptions, excludeCurr.name];
       this.initialCurrencyBasedOnIp = excludeCurr.name;
@@ -40,23 +48,41 @@ export class NavComponent  {
 
   @Output() currencyChange = new EventEmitter();
 
+  activeTranslation: typeof translations.EN = translations.EN;
+  translations = translations;
   initialCurrencyBasedOnIp: string;
   hasCurrencyBeenSetBasedOnIpFlag = false;
   initialCurrencyOptions = ['USD', 'GBP', 'EUR'];
   scrollActiveNavAnyways: boolean;
   activeClassScrollSet: boolean
   activeClassSet: boolean;
-  dropOpen = [false, false];
+  dropOpen = [false, false, false];
   activeCurrency = '';
   currencyOptions = this.initialCurrencyOptions;
   currencyOptionsToDisplay: string[] = ['USD', 'GBP', 'EUR'];
   currencySymbolMap = CountryToCurrencyAbbrevMap;
+  flagOptionsToDisplay = ['PL', 'ES', 'DE'];
+  flagOptionActive = 'EN';
 
-  constructor(private scrollSer: ScrollService) { }
+  constructor(private scrollSer: ScrollService, private daS: DataAccessService, private facade: AppFacade) { }
+
+  setActiveFlagOption(name: string) {
+    const flagOptionsToDisplayWithNoSelected = this.flagOptionsToDisplay.filter(el => {
+      return el != name;
+    });
+
+    this.flagOptionsToDisplay = [...flagOptionsToDisplayWithNoSelected, this.flagOptionActive];
+    this.flagOptionActive = name;
+  }
 
   scrollTopOnNavigateAndDismiss() {
     this.hideNavUl();
     this.scrollSer.scrollToTopOnNavigate();
+  }
+
+  toggleLang(name) {
+    this.setActiveFlagOption(name);
+    this.facade.activeTranslation$.next(name);
   }
 
   scrollToPrivacyPolicyOnNavigateAndDismiss() {

@@ -17,7 +17,7 @@ function getAccountsWithAppropCurrency(currency: currencyData, accArr: Account[]
     el.priceAfterConversion = (newPrice).toFixed(2)
     return el;
   });
-  
+
   return accountsAccCopy;
 }
 
@@ -181,7 +181,7 @@ export function reducer(
     }
 
     case fromAppActions.Types.SelectRegion: {
-      
+
       state = {
         ...state,
         selectedRegion: action.payload,
@@ -193,6 +193,8 @@ export function reducer(
     }
 
     case fromAppActions.Types.loadCurrencyBasedOnLocation: {
+
+
 
       state = {
         ...state,
@@ -215,7 +217,7 @@ export function reducer(
     }
 
     case fromAppActions.Types.loadCurrencyBasedOnLocationSuccess: {
-      const name = mapCurrencyRegionToInitialRegionSelected[action.payload.name] || 
+      const name = mapCurrencyRegionToInitialRegionSelected[action.payload.name] ||
         mapCurrencyRegionToInitialRegionSelected[action.payload.regionName] || state.selectedRegion.name;
       state = {
         ...state,
@@ -250,7 +252,7 @@ export function reducer(
 
     }
 
-    
+
     case fromAppActions.Types.LoadCurrency: {
 
       state = {
@@ -344,7 +346,7 @@ export function reducer(
     }
 
     case fromAppActions.Types.LoadAccountsSuccess: {
-      const accountsWithAppropCurrency = getAccountsWithAppropCurrency(state.currency || {name: 'USD', exchangeRateToDollar: 1}, 
+      const accountsWithAppropCurrency = getAccountsWithAppropCurrency(state.currency || {name: 'USD', exchangeRateToDollar: 1},
       action.payload.acc);
 
       state = {

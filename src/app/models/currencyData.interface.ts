@@ -1,5 +1,6 @@
 export interface currencyData {
-    name: string, 
+    name: string,
     exchangeRateToDollar: number,
-    region?: string
+    region?: string,
+    country?: string
 }

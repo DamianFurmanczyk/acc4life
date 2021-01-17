@@ -1,5 +1,5 @@
     <section class="regions">
-      <h2>Choose your region</h2>
+      <h2>{{activeTranslation.homepage.regions.h}}</h2>
 
       <div *ngIf="(facade.loadingRegions$ | async) && !(facade.loadingRegionsErr$ | async)" class="regions_loader-wrapper">
         <app-loader-spinner></app-loader-spinner>
@@ -10,10 +10,10 @@
 
           <ng-container *ngIf="facade.loadingRegionsErr$ | async; else elseTemplate">
             <p class="noInfo">
-              Couldn't retrieve regions data from server.
+              {{activeTranslation.homepage.regions.errorMsg}}
             </p>
           </ng-container>
-          
+
           <ng-template #elseTemplate>
             <figure *ngFor="let region of regions" (click)="selectRegion(region)" [ngClass]="['region', selectedRegionSet.name == region.name ? ' active' : '']">
                 <div class="region_caption">{{region.name}}</div>

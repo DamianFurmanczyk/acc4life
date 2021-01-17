@@ -1,7 +1,8 @@
 <app-hero [reviewsRatingAvg]='facade.reviewsRatingAvg$ | async'
     [reviewsAvgRatingLoadingErr]='facade.reviewsAvgRatingError$ | async'
     [reviewsAvgRatingLoading]='facade.reviewsAvgRatingLoading$ | async'
+    [activeTranslationHandler]='facade.activeTranslation$ | async'
 ></app-hero>
-<app-region-selection></app-region-selection>
-<app-account-purchase-stripe-with-popup></app-account-purchase-stripe-with-popup>
-<app-perks-list></app-perks-list>
+<app-region-selection [activeTranslationHandler]="facade.activeTranslation$ | async"></app-region-selection>
+<app-account-purchase-stripe-with-popup [activeTranslationHandler]="facade.activeTranslation$ | async"></app-account-purchase-stripe-with-popup>
+<app-perks-list [activeTranslationHandler]="facade.activeTranslation$ | async"></app-perks-list>

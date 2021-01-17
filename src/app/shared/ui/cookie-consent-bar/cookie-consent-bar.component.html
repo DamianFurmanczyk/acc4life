@@ -1,10 +1,10 @@
 <div class="cookie-bar" [ngClass]="{'dismissed-trans': triggerTransition}">
     <div class="cookie-bar_content-wrapper">
         <p class="cookie-bar_text">
-            This website uses cookies for a better browsing experience.
+          {{activeTranslation.cookieBar.notification}}
         </p>
         <button class="cookie-bar_accept-btn" (click)="transitionAndDismiss()">
-            Accept all cookies
+          {{activeTranslation.cookieBar.btnText}}
         </button>
     </div>
 </div>

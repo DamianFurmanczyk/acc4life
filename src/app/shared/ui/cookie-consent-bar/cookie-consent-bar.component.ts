@@ -1,4 +1,5 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { translations } from './../../../core/mappers/translations';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-cookie-consent-bar',
@@ -7,7 +8,13 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 export class CookieConsentBarComponent {
   @Output() dismissCookiesBarAndSetCookie = new EventEmitter();
+  @Input() set activeTranslationHandler(t) {
+    console.log(translations[t])
+    if(translations[t]) this.activeTranslation = translations[t];
+  }
+
   triggerTransition;
+  activeTranslation: typeof translations.EN = translations.EN;
 
   constructor() { }
 

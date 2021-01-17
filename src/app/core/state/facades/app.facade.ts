@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
@@ -24,6 +25,7 @@ export class AppFacade {
   loadingRegionsErr$ = this.store.pipe(select(selectors.getRegionsLoadingErr));
   reviewsAvgRatingLoading$ = this.store.pipe(select(selectors.getReviewsAvgRatingLoading));
   reviewsAvgRatingError$ = this.store.pipe(select(selectors.getReviewsAvgRatingError));
+  activeTranslation$: BehaviorSubject<'EN' | 'ES' | 'DE' | 'PL'> = new BehaviorSubject('EN');
 
   constructor(private store: Store<fromApp.AppPartialState>) {}
 

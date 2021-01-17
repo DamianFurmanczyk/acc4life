@@ -1,3 +1,4 @@
+import { translations } from './../../../core/mappers/translations';
 import { ScrollService } from './../../../shared/utils/scrolls.service';
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 
@@ -12,7 +13,11 @@ export class HeroComponent  {
     !ratingData ? this.reviewsNum = 0 : this.reviewsNum = ratingData[1];
   }
   @Input() reviewsAvgRatingLoadingErr;
-  @Input() reviewsAvgRatingLoading; 
+  @Input() reviewsAvgRatingLoading;
+  @Input() set activeTranslationHandler(t) {
+    if(translations[t]) this.activeTranslation = translations[t];
+  }
+  activeTranslation: typeof translations.EN = translations.EN;
 
   stars: any = Array.from(Array(5)).map(() => '<img src="assets/img/icons/star.svg" class="icon icon--star active icon--star-header"></img>').join('');
   reviewsNum = 0;

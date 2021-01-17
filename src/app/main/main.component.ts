@@ -3,7 +3,7 @@ import { currencyData } from './../models/currencyData.interface';
 import { Observable, Subject, fromEvent } from 'rxjs';
 import { AppFacade } from './../core/state/facades/app.facade';
 import { Component, OnDestroy, HostListener, AfterViewInit } from '@angular/core';
-import { filter, tap, takeUntil, throttleTime } from 'rxjs/operators';
+import { filter, tap, takeUntil, throttleTime, first, takeWhile } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { CookiesAppService } from './../core/services/cookies.service';
 @Component({
@@ -35,7 +35,6 @@ export class MainComponent implements OnDestroy, AfterViewInit {
 
   elementsThatNeedToDeactivateOnWindowClick;
   destroyed$: Subject<boolean> = new Subject();
-  currency$: Observable<currencyData>;
   homepageUrl: boolean = true;
   scrollStyles: boolean = false;
   nav_ul: HTMLElement;
@@ -49,7 +48,17 @@ export class MainComponent implements OnDestroy, AfterViewInit {
 
   constructor(public facade: AppFacade, router: Router, private cookieService: CookieService, private appCookieService: CookiesAppService) {
     this.showCookiesBar = this.appCookieService.showConsentCookieBar;
-    this.currency$ = this.facade.currency$;
+    this.facade.currency$.pipe(
+      tap((curr: currencyData) => {
+        if (curr == null) {
+          this.facade.activeTranslation$.next('EN');
+          return;
+        }
+        const countryArr = ['EN', 'ES', 'DE', 'PL'];
+          this.facade.activeTranslation$.next(countryArr.includes(curr.country) ? <'EN' | 'ES' | 'DE' | 'PL'>curr.country : 'EN');
+      })
+    ).subscribe();
+
     this.scrollActiveNavNoMatterWhat = window.innerWidth < 981;
 
     router.events.pipe(filter(event => event instanceof ActivationEnd),

@@ -1,3 +1,4 @@
+import { translations } from './../../../core/mappers/translations';
 import { ScrollService } from './../../../shared/utils/scrolls.service';
 import { AccountWithCountAndOrderQty } from './../../../models/accountExtended.interface';
 import { currencyData } from './../../../models/currencyData.interface';
@@ -19,6 +20,10 @@ export class AccountPurchaseStripeComponent   {
   @Input() accounts: AccountWithCountAndOrderQty[] = [];
   @Input() accountsLoading;
   @Input() accountsLoadingErr;
+  @Input() set activeTranslationHandler(t) {
+    if(translations[t]) this.activeTranslation = translations[t];
+  }
+  activeTranslation: typeof translations.EN = translations.EN;
 
   accountToDustAmountMap = {
     Basic: 40000,
@@ -44,7 +49,7 @@ export class AccountPurchaseStripeComponent   {
     this.changeOrderQuantity.emit({q, id, selectedAccIsTarget: false});
   }
 
-  constructor(private scrollS: ScrollService) { 
+  constructor(private scrollS: ScrollService) {
 
    }
 

@@ -1,3 +1,4 @@
+import { translations } from './../../../core/mappers/translations';
 import { Region } from './../../../models/region.interface';
 import { Account } from './../../../models/account.interface';
 import { takeUntil, tap } from 'rxjs/operators';
@@ -15,6 +16,10 @@ import { Component, OnInit, OnDestroy, Input, ChangeDetectionStrategy } from '@a
 })
 export class AccountPurchaseStripeWithPopupComponent implements OnInit, OnDestroy {
   @Input() altStyles?: boolean = false;
+  @Input() set activeTranslationHandler(t) {
+    if(translations[t]) this.activeTranslation = translations[t];
+  }
+  activeTranslation: typeof translations.EN = translations.EN;
   accountsExtended$: BehaviorSubject<AccountWithCountAndOrderQty[]> = new BehaviorSubject([]);
   destroyed$: Subject<boolean> = new Subject();
   currency$: Observable<currencyData> = this.facade.currency$;
@@ -26,7 +31,7 @@ export class AccountPurchaseStripeWithPopupComponent implements OnInit, OnDestro
   set accountsSetter(accData: {acc: Account[], count: number[]}) {
     if(!accData.acc) return;
 
-    let accounts_with_count = accData.acc.map((el, i) => { 
+    let accounts_with_count = accData.acc.map((el, i) => {
       return { ...el, count: accData.count[i], orderQty: 1 }
     });
 

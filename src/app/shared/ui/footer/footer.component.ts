@@ -1,6 +1,7 @@
+import { translations } from './../../../core/mappers/translations';
 import { Router } from '@angular/router';
 import { ScrollService } from './../../utils/scrolls.service';
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
@@ -10,6 +11,10 @@ import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 export class FooterComponent implements AfterViewInit {
   @ViewChild('faqColumn') faqCol: ElementRef;
   @ViewChild('linksCol') linksCol: ElementRef;
+  @Input() set activeTranslationHandler(t) {
+    if(translations[t]) this.activeTranslation = translations[t];
+  }
+  activeTranslation: typeof translations.EN = translations.EN;
   dds: NodeListOf<HTMLElement>;
   explendableUlsTriggers: NodeListOf<HTMLElement>;
 
@@ -26,6 +31,10 @@ export class FooterComponent implements AfterViewInit {
 
   navigateAndScrollToReviews() {
     this.scrollSer.navigateAndScrollToElem('.reviews', '/reviews');
+  }
+
+  navigateAndScrollToPrivacyPolicy() {
+    this.scrollSer.navigateAndScrollToElem('.privacy-policy', '/terms-and-conditions');
   }
 
   ngAfterViewInit() {
